@@ -774,15 +774,12 @@ $result = $conn->query($sql);
                     let button = $(`.suspendUser[data-id='${userId}'], .activateUser[data-id='${userId}']`).closest("tr");
                     let btn = button.find(".suspendUser, .activateUser");
                     let badge = button.find(".badge");
-                    let statusColumn = button.find(".status-column");
-
                     btn.removeClass("suspendUser").addClass("activateUser")
                         .html('<i class="fas fa-user-check fa-lg"></i>')
                         .attr("data-bs-target", "#activateUserModal")
                         .attr("data-status", "inactive"); // Use attr instead of data()
 
                     badge.text("Inactive").removeClass("bg-success").addClass("bg-secondary");
-                    statusColumn.text("Inactive").removeClass("text-success").addClass("text-secondary");
 
                     showToast("User suspended successfully!", "success");
                 } else {
@@ -811,15 +808,12 @@ $result = $conn->query($sql);
                     let button = $(`.suspendUser[data-id='${userId}'], .activateUser[data-id='${userId}']`).closest("tr");
                     let btn = button.find(".suspendUser, .activateUser");
                     let badge = button.find(".badge");
-                    let statusColumn = button.find(".status-column");
-
                     btn.removeClass("activateUser").addClass("suspendUser")
                         .html('<i class="fas fa-user-slash fa-lg"></i>')
                         .attr("data-bs-target", "#suspendUserModal")
                         .attr("data-status", "active"); // Use attr instead of data()
 
                     badge.text("Active").removeClass("bg-secondary").addClass("bg-success");
-                    statusColumn.text("Active").removeClass("text-secondary").addClass("text-success");
 
                     showToast("User activated successfully!", "success");
                 } else {

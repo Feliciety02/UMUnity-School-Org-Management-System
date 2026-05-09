@@ -113,9 +113,9 @@ $total_events = get_total_org_events($leader_id, $conn);
 
                                 <div class="col-lg-6">
                                     <div class="card border-0 shadow-sm">
-                                        <div class="card-header">Manage Events</div>
+                                    <div class="card-header">Manage Events</div>
                                         <div class="card-body">
-                                            <a href="manage_events.php" class="btn btn-primary">View Events</a>
+                                            <a href="create_event.php" class="btn btn-primary">View Events</a>
                                         </div>
                                     </div>
                                 </div>

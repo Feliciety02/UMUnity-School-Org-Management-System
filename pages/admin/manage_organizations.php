@@ -1,7 +1,6 @@
 <?php
 require_once(__DIR__ . "/../../database/config.php");
 include "../../includes/header.php";
-include "../../includes/sidebar.php";
 
 // Check if user is an admin
 if (!isset($_SESSION["role"]) || $_SESSION["role"] !== "admin") {
@@ -38,7 +37,7 @@ $result = $conn->query($sql);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Management</title>
+    <title>Organization Management</title>
 
     <link rel="stylesheet" href="/assets/css/dashboard.css">
     <link rel="stylesheet" href="/assets/css/includes.css">

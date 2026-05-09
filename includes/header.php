@@ -33,13 +33,7 @@ $profile_image = (!empty($user['profile_pic']) && file_exists(__DIR__ . "/../" .
     ? "/" . htmlspecialchars($user['profile_pic'])
     : $default_image;
 
-// Assign role names based on `role_id`
-$role_names = [
-    1 => 'Admin',
-    2 => 'Leader',
-    3 => 'Student'
-];
-$role = $role_names[$role_id] ?? 'Guest';
+$role = ucfirst(role_name_from_id($role_id));
 
 // Fetch unread notifications count
 $unread_notifications = count_unread_notifications($user_id);
@@ -88,9 +82,9 @@ $recent_notifications = get_recent_notifications($user_id, 5);
                                     <div class="notification-item <?php echo $notif['is_read'] ? '' : 'unread'; ?>">
                                         <div class="d-flex">
                                             <div class="ms-3">
-                                                <h6 class="mb-0"><?php echo htmlspecialchars($notif['title']); ?></h6>
+                                                <h6 class="mb-0">Notification</h6>
                                                 <p class="small mb-0"><?php echo htmlspecialchars($notif['message']); ?></p>
-                                                <small><?php echo format_date($notif['created_at'], 'M d, h:i A'); ?></small>
+                                                <small><?php echo format_date($notif['sent_at'], 'M d, h:i A'); ?></small>
                                             </div>
                                         </div>
                                     </div>
@@ -121,8 +115,8 @@ $recent_notifications = get_recent_notifications($user_id, 5);
                     </button>
 
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="../profile/profile.php"><i class="fas fa-user me-2"></i> Profile</a></li>
-                        <li><a class="dropdown-item" href="../logout.php"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
+                        <li><a class="dropdown-item" href="/pages/profile/profile.php"><i class="fas fa-user me-2"></i> Profile</a></li>
+                        <li><a class="dropdown-item" href="/pages/logout.php"><i class="fas fa-sign-out-alt me-2"></i> Logout</a></li>
                     </ul>
                 </div>
 
@@ -130,204 +124,3 @@ $recent_notifications = get_recent_notifications($user_id, 5);
         </div>
     </nav>
 </div>
-
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Material+Icons+Outlined');
-
-    /* Make navbar fixed at the top */
-    .main-header {
-        background: #f3f3f3 !important;
-        height: 70px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 15px 20px;
-        position: fixed;
-        top: 0;
-        left: 250px;
-        /* Adjust based on sidebar width */
-        width: calc(100% - 250px);
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .profile-dropdown-img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-
-    /* Universal Search Bar */
-    .nav-search {
-        flex-grow: 1;
-        margin: 0 20px;
-        position: relative;
-        max-width: 800px;
-    }
-
-    .search-input {
-        width: 100%;
-        padding: 10px 15px;
-        border-radius: 30px;
-        border: 2px solid #fff;
-        outline: none;
-        color: #111;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .search-input::placeholder {
-        color: rgba(17, 17, 17, 0.8);
-    }
-
-    .search-input:focus {
-        border-color: #a83232;
-    }
-
-    /* Right side notification & profile */
-    .right-nav {
-        display: flex;
-        align-items: center;
-        gap: 25px;
-        margin-left: auto;
-    }
-
-    /* Bigger Notification Icon */
-    .notification-btn {
-        font-size: 30px;
-        /* Increase icon size */
-        padding: 12px 18px;
-        position: relative;
-        background: transparent !important;
-        border: none !important;
-        color: #a83232 !important;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .notification-btn:hover {
-        background: rgba(168, 50, 50, 0.1) !important;
-        border-radius: 10px;
-    }
-
-    /* Notification Badge */
-    .notification-btn .badge {
-        font-size: 16px;
-        padding: 8px 12px;
-        position: absolute;
-        top: 5px;
-        right: 5px;
-    }
-
-    /* Profile Dropdown */
-    .profile-dropdown {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        background: transparent !important;
-        border: none !important;
-        color: #a83232 !important;
-    }
-
-    .profile-dropdown .fas {
-        margin-top: 10px;
-        font-size: 30px;
-        color: #a83232;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .profile-text {
-        color: #a83232 !important;
-
-    }
-
-    .profile-dropdown:hover .fas {
-        color: #d9534f;
-        /* Slight hover color change */
-    }
-
-    /* Dropdown menu */
-    .dropdown-menu {
-        background: #a83232 !important;
-        border-radius: 8px;
-        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-        border: none;
-    }
-
-    .dropdown-menu a {
-        color: #fff !important;
-        padding: 10px 15px;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .dropdown-menu a:hover {
-        background: rgba(255, 255, 255, 0.2) !important;
-    }
-
-
-    /* Notification Dropdown */
-    .notification-dropdown {
-        min-width: 350px;
-        background: #a83232 !important;
-        border-radius: 8px;
-        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-        border: none;
-        animation: fadeIn 0.3s ease-in-out;
-    }
-
-    .notification-dropdown h6 {
-        color: #fff;
-    }
-
-    .notification-item {
-        padding: 12px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        color: #fff;
-    }
-
-    .notification-item.unread {
-        background: rgba(255, 255, 255, 0.1);
-    }
-
-    /* Make "View All Notifications" Button Bigger */
-    .view-all-btn {
-        font-size: 30px !important;
-        /* Increase font size */
-        padding: 12px 20px !important;
-        /* Increase padding */
-        width: 100% !important;
-        /* Make button full width */
-        text-align: center !important;
-        /* Center text */
-        font-weight: bold !important;
-        /* Make text bold */
-        background-color: #fff !important;
-        /* Ensure visibility */
-        color: #a83232 !important;
-        /* Match theme color */
-        border-radius: 8px !important;
-        /* Rounded edges */
-        transition: all 0.3s ease-in-out;
-    }
-
-    .view-all-btn:hover {
-        background: rgba(255, 255, 255, 0.2) !important;
-        /* Slight hover effect */
-        color: white !important;
-    }
-
-    /* Fade-in animation */
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-</style>

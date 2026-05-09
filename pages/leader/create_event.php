@@ -34,21 +34,24 @@ $org_name = $organization ? $organization['name'] : "No Organization Assigned";
 // Fetch event statistics
 $total_events = get_total_org_events($leader_id, $conn);
 
-// Fetch all events with organization details
+// Fetch only the leader's organization events
 $sql = "SELECT 
             e.event_id, 
             e.title, 
             e.date_time, 
             e.venue, 
             e.capacity, 
-            COALESCE(es.status, 'Pending') AS status, 
+            e.status,
             COALESCE(o.name, 'N/A') AS organization
         FROM events e
-        LEFT JOIN event_status es ON e.event_id = es.event_id
-        LEFT JOIN organizations o ON e.org_id = o.org_id
+        INNER JOIN organizations o ON e.org_id = o.org_id
+        WHERE o.leader_id = ?
         ORDER BY e.date_time DESC";
 
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $leader_id);
+$stmt->execute();
+$result = $stmt->get_result();
 ?>
 
 <!DOCTYPE html>
@@ -166,6 +169,40 @@ $result = $conn->query($sql);
             </div>
         </div>
 
+    </div>
+
+    <!-- Add Event Modal -->
+    <div id="addEventModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h4 class="modal-title">Add Event</h4>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addEventForm">
+                        <label class="mb-1">Title:</label>
+                        <input type="text" class="form-control mb-3" name="title" required>
+
+                        <label class="mb-1">Description:</label>
+                        <textarea class="form-control mb-3" name="description" required></textarea>
+
+                        <label class="mb-1">Date & Time:</label>
+                        <input type="datetime-local" class="form-control mb-3" name="date_time" required>
+
+                        <label class="mb-1">Venue:</label>
+                        <input type="text" class="form-control mb-3" name="venue" required>
+
+                        <label class="mb-1">Capacity:</label>
+                        <input type="number" class="form-control mb-3" name="capacity" min="1" required>
+
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-plus"></i> Add Event
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- View Event Modal -->
@@ -334,15 +371,30 @@ $result = $conn->query($sql);
                 event.preventDefault();
 
                 let formData = new FormData(this);
-                fetch('/events/add_event.php', {
+                fetch('events/add_event.php', {
                         method: 'POST',
                         body: formData
                     })
                     .then(response => response.json())
                     .then(data => {
                         if (data.success) {
+                            let newRow = `
+                                <tr id="event_${data.event_id}">
+                                    <td class="text-center">${data.title}</td>
+                                    <td class="text-center">${formatDateTime(data.date_time)}</td>
+                                    <td class="text-center">${data.venue}</td>
+                                    <td class="text-center">${data.organization}</td>
+                                    <td class="text-center"><span class="badge bg-secondary">Pending</span></td>
+                                    <td class="text-center">
+                                        <button class="btn btn-m p-2 text-warning viewEvent" data-id="${data.event_id}" data-bs-toggle="modal" data-bs-target="#viewEventModal"><i class="fas fa-info-circle fa-lg"></i></button>
+                                        <button class="btn btn-sm text-primary editEvent" data-id="${data.event_id}" data-bs-toggle="modal" data-bs-target="#editEventModal"><i class="fas fa-edit fa-lg"></i></button>
+                                        <button class="btn btn-sm text-danger deleteEvent" data-id="${data.event_id}"><i class="fas fa-trash-alt fa-lg"></i></button>
+                                    </td>
+                                </tr>`;
+                            $("#eventTable tbody").prepend(newRow);
+                            $("#addEventModal").modal("hide");
+                            $("#addEventForm")[0].reset();
                             showToast("Event added successfully!");
-                            setTimeout(() => location.reload(), 1500);
                         } else {
                             showToast("Error: " + data.message, "error");
                         }
@@ -357,10 +409,11 @@ $result = $conn->query($sql);
                 let eventId = $(this).data("id");
 
                 if (confirm("Are you sure you want to delete this event?")) {
-                    $.post('/events/delete_event.php', {
-                        event_id: eventId
+                    $.post('events/process_event.php', {
+                        event_id: eventId,
+                        action: 'delete'
                     }, function(response) {
-                        if (response.trim() === "success") {
+                        if (response.trim() === "Event Deleted") {
                             $("#event_" + eventId).fadeOut(300, function() {
                                 $(this).remove();
                             });
@@ -387,10 +440,11 @@ $result = $conn->query($sql);
                     success: function(data) {
                         if (data) {
                             $("#edit_event_id").val(data.event_id);
-                            $("#edit_eventTitle").val(data.title);
-                            $("#edit_eventDateTime").val(data.date_time);
-                            $("#edit_eventVenue").val(data.venue);
-                            $("#edit_eventCapacity").val(data.capacity);
+                            $("#edit_title").val(data.title);
+                            $("#edit_description").val(data.description);
+                            $("#edit_date_time").val(data.date_time);
+                            $("#edit_venue").val(data.venue);
+                            $("#edit_capacity").val(data.capacity);
                             $("#editEventModal").modal("show");
                         } else {
                             showToast("Error loading event details!", "error");
@@ -405,20 +459,18 @@ $result = $conn->query($sql);
             $("#editEventForm").submit(function(event) {
                 event.preventDefault();
 
-                $.post("/events/edit_event.php", $("#editEventForm").serialize(), function(response) {
+                $.post("events/edit_event.php", $("#editEventForm").serialize(), function(response) {
                     if (response.trim().startsWith("success|")) {
                         let eventData = response.split("|");
                         let eventId = eventData[1];
                         let title = eventData[2];
                         let dateTime = eventData[3];
                         let venue = eventData[4];
-                        let capacity = eventData[5];
 
                         let row = $("#event_" + eventId);
                         row.find("td:nth-child(1)").text(title);
-                        row.find("td:nth-child(2)").text(dateTime);
+                        row.find("td:nth-child(2)").text(formatDateTime(dateTime));
                         row.find("td:nth-child(3)").text(venue);
-                        row.find("td:nth-child(4)").text(capacity);
 
                         $("#editEventModal").modal("hide");
                         showToast("Event updated successfully!");

@@ -51,7 +51,7 @@ $recent_org_events = get_recent_org_events($student_id, $conn);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leader Dashboard</title>
+    <title>Student Dashboard</title>
     <link rel="stylesheet" href="/assets/css/dashboard.css">
     <link rel="stylesheet" href="/assets/css/includes.css">
     <link rel="stylesheet" href="/assets/css/table.css">

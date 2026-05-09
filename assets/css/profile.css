@@ -1,39 +1,36 @@
-body {
-  background-color: #f4f4f4;
-}
-
-.card {
-  max-width: 800px;
-  margin: auto;
-  border-radius: 12px;
-  padding: 20px;
-}
-
 .profile-img {
-  width: 120px;
-  height: 120px;
-  border: 3px solid #ddd;
+  width: 132px;
+  height: 132px;
+  border-radius: 28px !important;
+  border: 3px solid rgba(168, 50, 50, 0.1);
   object-fit: cover;
+  box-shadow: var(--shadow-sm);
 }
 
-button {
-  width: 100%;
-  padding: 10px;
-  font-weight: bold;
+.wrapper-card h3,
+.wrapper-card h4,
+.wrapper-card h5 {
+  margin-bottom: 0.75rem;
 }
 
-.wrapper {
-  display: flex;
-  min-height: 100vh;
+.wrapper-card form {
+  display: grid;
+  gap: 0.95rem;
 }
 
-.sidebar {
-  width: 250px;
-  background: #343a40;
-  padding: 20px;
-  color: white;
+.wrapper-card .btn {
+  justify-self: start;
+  min-width: 180px;
 }
 
-.main-content {
-  flex-grow: 1;
+.main-content .card {
+  max-width: none;
+  margin: 0;
+}
+
+@media (max-width: 767.98px) {
+  .wrapper-card .btn {
+    width: 100%;
+    justify-self: stretch;
+  }
 }

@@ -7,9 +7,34 @@
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
+CREATE DATABASE IF NOT EXISTS `school_org_system_backup`
+  DEFAULT CHARACTER SET utf8mb4
+  COLLATE utf8mb4_general_ci;
+USE `school_org_system_backup`;
+
+SET FOREIGN_KEY_CHECKS = 0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+DROP TABLE IF EXISTS `announcement_targets`;
+DROP TABLE IF EXISTS `attendance`;
+DROP TABLE IF EXISTS `event_status`;
+DROP TABLE IF EXISTS `membership`;
+DROP TABLE IF EXISTS `notifications`;
+DROP TABLE IF EXISTS `subscriptions`;
+DROP TABLE IF EXISTS `user_achievements`;
+DROP TABLE IF EXISTS `user_social_links`;
+DROP TABLE IF EXISTS `org_resources`;
+DROP TABLE IF EXISTS `admin_resources`;
+DROP TABLE IF EXISTS `activity_logs`;
+DROP TABLE IF EXISTS `audit_logs`;
+DROP TABLE IF EXISTS `announcements`;
+DROP TABLE IF EXISTS `events`;
+DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `organizations`;
+DROP TABLE IF EXISTS `roles`;
+DROP TABLE IF EXISTS `org_categories`;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -27,6 +52,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `activity_logs`
 --
 
+DROP TABLE IF EXISTS `activity_logs`;
 CREATE TABLE `activity_logs` (
   `log_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -237,6 +263,7 @@ INSERT INTO `activity_logs` (`log_id`, `user_id`, `action`, `details`, `ip_addre
 -- Table structure for table `admin_resources`
 --
 
+DROP TABLE IF EXISTS `admin_resources`;
 CREATE TABLE `admin_resources` (
   `user_id` int(11) NOT NULL,
   `emergency_contact` varchar(50) DEFAULT NULL,
@@ -259,6 +286,7 @@ INSERT INTO `admin_resources` (`user_id`, `emergency_contact`, `support_email`, 
 -- Table structure for table `announcements`
 --
 
+DROP TABLE IF EXISTS `announcements`;
 CREATE TABLE `announcements` (
   `announcement_id` int(11) NOT NULL,
   `title` varchar(100) NOT NULL,
@@ -273,6 +301,7 @@ CREATE TABLE `announcements` (
 -- Table structure for table `announcement_targets`
 --
 
+DROP TABLE IF EXISTS `announcement_targets`;
 CREATE TABLE `announcement_targets` (
   `target_id` int(11) NOT NULL,
   `announcement_id` int(11) DEFAULT NULL,
@@ -286,6 +315,7 @@ CREATE TABLE `announcement_targets` (
 -- Table structure for table `attendance`
 --
 
+DROP TABLE IF EXISTS `attendance`;
 CREATE TABLE `attendance` (
   `attendance_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -301,6 +331,7 @@ CREATE TABLE `attendance` (
 -- Table structure for table `audit_logs`
 --
 
+DROP TABLE IF EXISTS `audit_logs`;
 CREATE TABLE `audit_logs` (
   `log_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -316,6 +347,7 @@ CREATE TABLE `audit_logs` (
 -- Table structure for table `events`
 --
 
+DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
   `event_id` int(11) NOT NULL,
   `org_id` int(11) DEFAULT NULL,
@@ -389,6 +421,7 @@ INSERT INTO `events` (`event_id`, `org_id`, `title`, `description`, `date_time`,
 -- Table structure for table `event_status`
 --
 
+DROP TABLE IF EXISTS `event_status`;
 CREATE TABLE `event_status` (
   `status_id` int(11) NOT NULL,
   `event_id` int(11) NOT NULL,
@@ -439,6 +472,7 @@ INSERT INTO `event_status` (`status_id`, `event_id`, `status`, `reason`, `update
 -- Table structure for table `membership`
 --
 
+DROP TABLE IF EXISTS `membership`;
 CREATE TABLE `membership` (
   `membership_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -605,6 +639,7 @@ DELIMITER ;
 -- Table structure for table `notifications`
 --
 
+DROP TABLE IF EXISTS `notifications`;
 CREATE TABLE `notifications` (
   `notification_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -619,6 +654,7 @@ CREATE TABLE `notifications` (
 -- Table structure for table `organizations`
 --
 
+DROP TABLE IF EXISTS `organizations`;
 CREATE TABLE `organizations` (
   `org_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -687,6 +723,7 @@ INSERT INTO `organizations` (`org_id`, `name`, `logo`, `description`, `status`, 
 -- Table structure for table `org_categories`
 --
 
+DROP TABLE IF EXISTS `org_categories`;
 CREATE TABLE `org_categories` (
   `category_id` int(11) NOT NULL,
   `category_name` varchar(255) NOT NULL
@@ -714,6 +751,7 @@ INSERT INTO `org_categories` (`category_id`, `category_name`) VALUES
 -- Table structure for table `org_resources`
 --
 
+DROP TABLE IF EXISTS `org_resources`;
 CREATE TABLE `org_resources` (
   `id` int(11) NOT NULL,
   `org_id` int(11) NOT NULL,
@@ -735,6 +773,7 @@ INSERT INTO `org_resources` (`id`, `org_id`, `support_email`, `contact_person`, 
 -- Table structure for table `roles`
 --
 
+DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
   `role_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL
@@ -755,6 +794,7 @@ INSERT INTO `roles` (`role_id`, `name`) VALUES
 -- Table structure for table `subscriptions`
 --
 
+DROP TABLE IF EXISTS `subscriptions`;
 CREATE TABLE `subscriptions` (
   `sub_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
@@ -767,6 +807,7 @@ CREATE TABLE `subscriptions` (
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `full_name` varchar(255) NOT NULL,
@@ -913,6 +954,7 @@ INSERT INTO `users` (`user_id`, `full_name`, `email`, `password`, `role_id`, `or
 -- Table structure for table `user_achievements`
 --
 
+DROP TABLE IF EXISTS `user_achievements`;
 CREATE TABLE `user_achievements` (
   `id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -927,6 +969,7 @@ CREATE TABLE `user_achievements` (
 -- Table structure for table `user_social_links`
 --
 
+DROP TABLE IF EXISTS `user_social_links`;
 CREATE TABLE `user_social_links` (
   `social_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -1279,6 +1322,7 @@ ALTER TABLE `user_achievements`
 ALTER TABLE `user_social_links`
   ADD CONSTRAINT `user_social_links_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 COMMIT;
+SET FOREIGN_KEY_CHECKS = 1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

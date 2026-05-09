@@ -1,52 +1,44 @@
 <?php
-require_once(__DIR__ . "/../../database/config.php");
+require_once(__DIR__ . "/../../../database/config.php");
+
 session_start();
 
-// Ensure the user is an admin
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'leader') {
+    http_response_code(403);
     exit("Unauthorized");
 }
 
-// Get input values
-$event_id = $_POST['event_id'] ?? 0;
+$event_id = (int)($_POST['event_id'] ?? 0);
 $action = $_POST['action'] ?? '';
+$leader_id = $_SESSION['user_id'];
 
-if (!$event_id || !in_array($action, ['approve', 'delete', 'reject'])) {
+if ($event_id <= 0 || !in_array($action, ['approve', 'delete', 'reject'], true)) {
     exit("Invalid request");
 }
 
-// Approve Event
-if ($action === 'approve') {
-    $stmt = $conn->prepare("UPDATE events SET status = 'approved' WHERE event_id = ?");
-    $stmt->bind_param("i", $event_id);
-    if ($stmt->execute()) {
-        exit("Event Approved");
-    } else {
-        exit("Error approving event");
-    }
-}
-
-// Reject Event
-if ($action === 'reject') {
-    $stmt = $conn->prepare("UPDATE events SET status = 'rejected' WHERE event_id = ?");
-    $stmt->bind_param("i", $event_id);
-    if ($stmt->execute()) {
-        exit("Event Rejected");
-    } else {
-        exit("Error rejecting event");
-    }
-}
-
-// Soft Delete Event (Instead of permanent deletion)
 if ($action === 'delete') {
-    $stmt = $conn->prepare("UPDATE events SET deleted_at = NOW() WHERE event_id = ?");
-    $stmt->bind_param("i", $event_id);
-    if ($stmt->execute()) {
-        exit("Event Deleted");
-    } else {
-        exit("Error deleting event");
-    }
+    $stmt = $conn->prepare("
+        DELETE e FROM events e
+        INNER JOIN organizations o ON e.org_id = o.org_id
+        WHERE e.event_id = ? AND o.leader_id = ?
+    ");
+    $stmt->bind_param("ii", $event_id, $leader_id);
+    echo $stmt->execute() ? "Event Deleted" : "Error deleting event";
+    $stmt->close();
+    exit();
 }
 
-// If no valid action, return error
-exit("Invalid action");
+$status = ($action === 'approve') ? 'approved' : 'rejected';
+$stmt = $conn->prepare("
+    UPDATE events e
+    INNER JOIN organizations o ON e.org_id = o.org_id
+    SET e.status = ?
+    WHERE e.event_id = ? AND o.leader_id = ?
+");
+$stmt->bind_param("sii", $status, $event_id, $leader_id);
+
+if ($stmt->execute()) {
+    exit($action === 'approve' ? "Event Approved" : "Event Rejected");
+}
+
+exit($action === 'approve' ? "Error approving event" : "Error rejecting event");

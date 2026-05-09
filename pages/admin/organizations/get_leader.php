@@ -1,28 +1,20 @@
 <?php
-require_once("/../../../database/config.php");
+require_once(__DIR__ . "/../../../database/config.php");
 
-// Get the role_id for 'org_lead'
-$roleQuery = "SELECT id FROM roles WHERE name = 'org_lead'";
-$roleResult = $conn->query($roleQuery);
+session_start();
 
-if ($roleResult->num_rows > 0) {
-    $roleRow = $roleResult->fetch_assoc();
-    $orgLeadRoleId = $roleRow['id'];
+if (!isset($_SESSION["user_id"], $_SESSION["role"]) || $_SESSION["role"] !== "admin") {
+    http_response_code(403);
+    exit('<option value="">Unauthorized</option>');
+}
 
-    // Fetch users with 'org_lead' role
-    $sql = "SELECT user_id, full_name FROM users WHERE role_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $orgLeadRoleId);
-    $stmt->execute();
-    $result = $stmt->get_result();
+$sql = "SELECT user_id, full_name FROM users WHERE role_id = 2 ORDER BY full_name ASC";
+$result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        while ($row = $result->fetch_assoc()) {
-            echo '<option value="' . $row['user_id'] . '">' . $row['full_name'] . '</option>';
-        }
-    } else {
-        echo '<option value="">No leaders available</option>';
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo '<option value="' . (int)$row['user_id'] . '">' . htmlspecialchars($row['full_name']) . '</option>';
     }
 } else {
-    echo '<option value="">Error: Role not found</option>';
+    echo '<option value="">No leaders available</option>';
 }

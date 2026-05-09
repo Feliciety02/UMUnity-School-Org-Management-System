@@ -1,38 +1,35 @@
 <?php
 require_once(__DIR__ . "/../../../database/config.php");
 
-if (isset($_POST['org_id'])) {
-    $org_id = $_POST['org_id'];
+session_start();
+header('Content-Type: application/json');
 
-    // Fetch the organization's details along with the leader's name, leader's user ID, category name, and logo
-    $sql = "
-    SELECT 
-        o.org_id, 
-        o.name, 
-        o.description, 
-        COALESCE(o.logo, 'assets/images/default-org.png') AS logo,  -- Include logo with a default value
-        COALESCE(u.full_name, 'N/A') AS leader_name, 
-        COALESCE(u.user_id, 0) AS leader_id,  -- Fetch the leader's user ID
-        COALESCE(c.category_name, 'N/A') AS category_name,
-        o.category_id
+if (!isset($_SESSION["user_id"], $_SESSION["role"]) || $_SESSION["role"] !== "admin") {
+    http_response_code(403);
+    echo json_encode(["error" => "Unauthorized"]);
+    exit();
+}
+
+if (!isset($_POST['org_id'])) {
+    echo json_encode(["error" => "Invalid request"]);
+    exit();
+}
+
+$org_id = (int)$_POST['org_id'];
+$stmt = $conn->prepare("
+    SELECT o.org_id, o.name, o.description, o.category_id, o.logo, o.leader_id,
+           COALESCE(u.full_name, 'N/A') AS leader_name,
+           COALESCE(c.category_name, 'N/A') AS category_name
     FROM organizations o
-    LEFT JOIN membership m ON o.org_id = m.org_id AND m.role = 'officer' 
-    LEFT JOIN users u ON m.user_id = u.user_id
+    LEFT JOIN users u ON o.leader_id = u.user_id
     LEFT JOIN org_categories c ON o.category_id = c.category_id
     WHERE o.org_id = ?
-    ";
+    LIMIT 1
+");
+$stmt->bind_param("i", $org_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$organization = $result->fetch_assoc();
+$stmt->close();
 
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $org_id);  // Bind the org_id parameter
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        echo json_encode($row);  // Return the organization data with the logo
-    } else {
-        echo json_encode(["error" => "Organization not found."]);
-    }
-
-    $stmt->close();
-}
+echo json_encode($organization ?: ["error" => "Organization not found"]);

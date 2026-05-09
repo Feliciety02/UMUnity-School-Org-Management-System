@@ -1,44 +1,43 @@
 <?php
 require_once(__DIR__ . "/../../../database/config.php");
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $event_id = $_POST['event_id'];
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $date_time = $_POST['date_time'];
-    $venue = $_POST['venue'];
-    $capacity = $_POST['capacity'];
+session_start();
 
-    // ✅ Update event details
-    $stmt = $conn->prepare("
-        UPDATE events 
-        SET title = ?, description = ?, date_time = ?, venue = ?, capacity = ? 
-        WHERE event_id = ?
-    ");
-    $stmt->bind_param("ssssii", $title, $description, $date_time, $venue, $capacity, $event_id);
-
-    if ($stmt->execute()) {
-        $stmt->close();
-
-        // ✅ Check if `status` column exists before querying
-        $check_status = $conn->query("SHOW COLUMNS FROM events LIKE 'status'");
-        if ($check_status->num_rows > 0) {
-            $stmt = $conn->prepare("SELECT status FROM events WHERE event_id = ?");
-            $stmt->bind_param("i", $event_id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $event = $result->fetch_assoc();
-            $status = $event["status"] ?? "pending";
-        } else {
-            $status = "pending"; // Default value if `status` column does not exist
-        }
-
-        // ✅ Return response: success|event_id|title|date_time|venue|status
-        echo "success|$event_id|$title|$date_time|$venue|$status";
-    } else {
-        echo "error: " . $conn->error;
-    }
-
-    $stmt->close();
-    $conn->close();
+if (!isset($_SESSION["user_id"], $_SESSION["role"]) || $_SESSION["role"] !== "admin") {
+    http_response_code(403);
+    exit("error|Unauthorized");
 }
+
+if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+    exit("error|Invalid request");
+}
+
+$event_id = (int)($_POST['event_id'] ?? 0);
+$title = trim($_POST['title'] ?? '');
+$description = trim($_POST['description'] ?? '');
+$date_time = $_POST['date_time'] ?? '';
+$venue = trim($_POST['venue'] ?? '');
+$capacity = (int)($_POST['capacity'] ?? 0);
+
+$stmt = $conn->prepare("
+    UPDATE events
+    SET title = ?, description = ?, date_time = ?, venue = ?, capacity = ?
+    WHERE event_id = ?
+");
+$stmt->bind_param("ssssii", $title, $description, $date_time, $venue, $capacity, $event_id);
+
+if (!$stmt->execute()) {
+    $stmt->close();
+    exit("error: " . $conn->error);
+}
+$stmt->close();
+
+$statusStmt = $conn->prepare("SELECT status FROM events WHERE event_id = ?");
+$statusStmt->bind_param("i", $event_id);
+$statusStmt->execute();
+$result = $statusStmt->get_result();
+$event = $result->fetch_assoc();
+$statusStmt->close();
+
+$status = $event["status"] ?? "pending";
+echo "success|$event_id|$title|$date_time|$venue|$status";
