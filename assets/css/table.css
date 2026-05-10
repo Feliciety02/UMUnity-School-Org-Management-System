@@ -1,6 +1,5 @@
 body {
-  font-family: "Manrope", sans-serif;
-  color: var(--ink-900);
+  color: var(--um-text-dark);
 }
 
 .table-responsive {
@@ -9,10 +8,13 @@ body {
 
 .table-wrapper,
 .wrapper-card {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(168, 50, 50, 0.08);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
+  background:
+    radial-gradient(circle at top right, rgba(255, 199, 44, 0.1), transparent 24%),
+    rgba(255, 253, 247, 0.82);
+  border: 1px solid rgba(122, 0, 25, 0.08);
+  border-radius: var(--um-radius-lg);
+  box-shadow: var(--um-shadow-sm);
+  backdrop-filter: blur(12px);
 }
 
 .table-wrapper {
@@ -20,24 +22,28 @@ body {
 }
 
 .wrapper-card {
-  padding: 1.15rem 1.2rem;
+  padding: 1.1rem 1.2rem;
+}
+
+.wrapper-card.is-toolbar {
+  padding: 1rem 1.15rem;
 }
 
 .table-title {
-  padding: 0.25rem 0 1.25rem;
-  border-bottom: 1px solid var(--border-100);
+  padding: 0.2rem 0 1.2rem;
+  border-bottom: 1px solid rgba(230, 216, 184, 0.9);
   margin-bottom: 1.25rem;
 }
 
 .table-title h1,
 .table-title h2 {
   margin: 0;
-  color: var(--brand-900) !important;
+  color: var(--um-maroon) !important;
 }
 
 .table-title p {
   margin: 0.35rem 0 0;
-  color: var(--ink-500);
+  color: var(--um-muted);
 }
 
 .pagination-container {
@@ -47,45 +53,99 @@ body {
   flex-wrap: wrap;
 }
 
+.control-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.control-label {
+  margin: 0;
+  color: var(--um-muted);
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.search-shell {
+  min-width: min(100%, 320px);
+}
+
 .table-container {
   overflow-x: auto;
+  border-radius: 22px;
 }
 
 .table {
   margin: 0;
   --bs-table-bg: transparent;
-  --bs-table-hover-bg: rgba(168, 50, 50, 0.04);
+  --bs-table-hover-bg: rgba(122, 0, 25, 0.03);
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .table thead {
-  background: linear-gradient(135deg, var(--brand-800), var(--brand-600));
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .table thead th {
   border: 0 !important;
-  color: #fff !important;
-  font-weight: 800;
-  letter-spacing: 0.01em;
   padding: 1rem 1rem;
+  background:
+    linear-gradient(135deg, var(--um-deep-maroon), var(--um-maroon)) !important;
+  color: var(--um-text-light) !important;
+  font-weight: 800;
+  letter-spacing: 0.015em;
+  white-space: nowrap;
+}
+
+.table thead th:first-child {
+  border-top-left-radius: 18px;
+}
+
+.table thead th:last-child {
+  border-top-right-radius: 18px;
 }
 
 .table tbody td {
-  border-color: var(--border-100);
-  vertical-align: middle;
   padding: 1rem;
+  vertical-align: middle;
+  border-color: rgba(230, 216, 184, 0.75);
+  background: rgba(255, 253, 247, 0.72);
 }
 
 .table tbody tr {
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: transform var(--um-transition), background-color var(--um-transition);
 }
 
-.table tbody tr:hover {
-  background: rgba(212, 165, 75, 0.08);
+.table tbody tr:hover td {
+  background: rgba(255, 248, 231, 0.98);
+}
+
+.table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 18px;
+}
+
+.table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 18px;
 }
 
 .table img.rounded,
 .table img.rounded-circle {
-  border: 2px solid rgba(168, 50, 50, 0.08);
+  border: 2px solid rgba(244, 176, 0, 0.18);
+  box-shadow: 0 12px 26px rgba(75, 0, 16, 0.08);
 }
 
 .pagination button,
@@ -93,28 +153,31 @@ body {
   min-width: 38px;
   height: 38px;
   border-radius: 12px;
-  border: 1px solid rgba(168, 50, 50, 0.14);
-  background: #fff;
-  color: var(--brand-700);
+  border: 1px solid rgba(122, 0, 25, 0.14);
+  background: rgba(255, 253, 247, 0.92);
+  color: var(--um-maroon);
   font-weight: 800;
-  transition: all 0.2s ease;
+  transition: all var(--um-transition);
 }
 
 .pagination button:hover,
 #paginationControls button:hover,
 .pagination button.active,
 #paginationControls button.active {
-  background: linear-gradient(135deg, var(--brand-700), var(--brand-600));
-  border-color: var(--brand-700);
-  color: #fff;
+  background: linear-gradient(135deg, var(--um-maroon), var(--um-deep-maroon));
+  border-color: rgba(255, 199, 44, 0.18);
+  color: var(--um-text-light);
+  box-shadow: 0 10px 24px rgba(75, 0, 16, 0.14);
 }
 
 .form-control,
 .form-select {
-  border-radius: 14px !important;
-  border: 1px solid var(--border-200) !important;
-  min-height: 46px;
-  background-color: #fffaf8 !important;
+  min-height: 48px;
+  border-radius: 15px !important;
+  border: 1px solid rgba(122, 0, 25, 0.12) !important;
+  background: rgba(255, 253, 247, 0.92) !important;
+  color: var(--um-text-dark) !important;
+  padding-inline: 0.95rem !important;
 }
 
 textarea.form-control {
@@ -123,46 +186,76 @@ textarea.form-control {
 
 .form-control:focus,
 .form-select:focus {
-  border-color: rgba(168, 50, 50, 0.35) !important;
-  box-shadow: 0 0 0 4px rgba(168, 50, 50, 0.08) !important;
+  border-color: rgba(122, 0, 25, 0.24) !important;
+  box-shadow: 0 0 0 4px rgba(244, 176, 0, 0.16) !important;
+  background: #fffef9 !important;
 }
 
-label {
+label,
+.form-label {
+  color: var(--um-text-dark);
   font-weight: 700;
-  color: var(--ink-700);
 }
 
 #addUserBtn,
 #addOrgBtn,
 #addEventBtn {
-  background: linear-gradient(135deg, var(--brand-700), var(--brand-600));
-  color: #fff;
-  border: none;
-  border-radius: 14px;
+  border: 1px solid rgba(255, 199, 44, 0.12);
+  background: linear-gradient(135deg, var(--um-maroon), var(--um-deep-maroon));
+  color: var(--um-text-light);
+  border-radius: 15px;
   padding: 0.8rem 1rem;
   font-weight: 800;
+  box-shadow: 0 16px 32px rgba(75, 0, 16, 0.14);
 }
 
 .modal-content {
-  border: 1px solid rgba(168, 50, 50, 0.08) !important;
-  border-radius: var(--radius-md) !important;
+  border: 1px solid rgba(122, 0, 25, 0.08) !important;
+  border-radius: 26px !important;
   overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 248, 231, 0.94)) !important;
+  box-shadow: var(--um-shadow-md);
 }
 
 .modal-header {
+  background:
+    radial-gradient(circle at right, rgba(255, 199, 44, 0.18), transparent 28%),
+    linear-gradient(135deg, rgba(122, 0, 25, 0.98), rgba(75, 0, 16, 0.98)) !important;
+  color: var(--um-text-light) !important;
   border-bottom: 0 !important;
+  padding: 1.1rem 1.2rem !important;
+}
+
+.modal-header .modal-title,
+.modal-header h4 {
+  color: var(--um-text-light) !important;
+}
+
+.modal-body {
+  padding: 1.35rem !important;
 }
 
 .modal-footer {
-  border-top: 1px solid var(--border-100) !important;
-  background: var(--surface-50);
+  border-top: 1px solid rgba(230, 216, 184, 0.84) !important;
+  background: rgba(255, 248, 231, 0.78) !important;
+}
+
+.btn-close {
+  filter: brightness(0) invert(1);
 }
 
 .info-card,
 .stat-card {
-  border: 1px solid rgba(168, 50, 50, 0.08);
-  border-radius: var(--radius-md);
-  background: linear-gradient(180deg, #fff, #fff8f3);
+  border: 1px solid rgba(122, 0, 25, 0.08);
+  border-radius: var(--um-radius-md);
+  background:
+    radial-gradient(circle at top right, rgba(255, 199, 44, 0.11), transparent 26%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 248, 231, 0.9));
+}
+
+canvas {
+  max-width: 100%;
 }
 
 @media (max-width: 767.98px) {
@@ -170,7 +263,15 @@ label {
     padding: 1rem;
   }
 
+  .wrapper-card {
+    padding: 1rem;
+  }
+
   .table-title {
     gap: 1rem;
+  }
+
+  .pagination-container {
+    align-items: stretch;
   }
 }

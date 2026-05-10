@@ -1,25 +1,28 @@
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
 :root {
-  --brand-900: #4f1620;
-  --brand-800: #6f1f2d;
-  --brand-700: #8a2737;
-  --brand-600: #a83232;
-  --accent-500: #d4a54b;
-  --surface-0: #fffdfa;
-  --surface-50: #fbf3ee;
-  --surface-100: #f3e8e2;
-  --ink-900: #1d2939;
-  --ink-600: #667085;
+  --um-maroon: #7a0019;
+  --um-deep-maroon: #4b0010;
+  --um-gold: #f4b000;
+  --um-warm-gold: #ffc72c;
+  --um-dark-bg: #14070b;
+  --um-dark-card: #211014;
+  --um-light-bg: #f8f5ef;
+  --um-cream: #fff8e7;
+  --um-border: #e6d8b8;
+  --um-text-dark: #1e1b16;
+  --um-text-light: #fffdf7;
+  --um-muted: #817264;
 }
 
 .body {
   margin: 0;
   min-height: 100vh;
-  font-family: "Manrope", sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(212, 165, 75, 0.15), transparent 25%),
-    linear-gradient(135deg, #551824 0%, #2d1118 52%, #14080d 100%);
+    radial-gradient(circle at top right, rgba(255, 199, 44, 0.18), transparent 26%),
+    radial-gradient(circle at bottom left, rgba(122, 0, 25, 0.2), transparent 26%),
+    linear-gradient(135deg, #20070f 0%, var(--um-deep-maroon) 42%, var(--um-dark-bg) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -27,67 +30,71 @@
 }
 
 .login-wrapper {
-  width: min(1120px, 100%);
-  min-height: 680px;
+  width: min(1180px, 100%);
+  min-height: 700px;
   display: grid;
-  grid-template-columns: 1.2fr 0.88fr;
-  border-radius: 34px;
+  grid-template-columns: 1.15fr 0.9fr;
   overflow: hidden;
+  border-radius: 36px;
+  border: 1px solid rgba(255, 199, 44, 0.12);
   background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 42px 90px rgba(0, 0, 0, 0.3);
 }
 
 .login-left {
   position: relative;
   padding: 3rem;
-  background:
-    linear-gradient(180deg, rgba(79, 22, 32, 0.45), rgba(79, 22, 32, 0.72)),
-    url("../images/hero-bg.png") center/cover no-repeat;
   display: flex;
   align-items: flex-end;
+  background:
+    linear-gradient(180deg, rgba(20, 7, 11, 0.2), rgba(20, 7, 11, 0.72)),
+    url("../images/hero-bg.png") center/cover no-repeat;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at top right, rgba(212, 165, 75, 0.35), transparent 35%),
-    linear-gradient(180deg, rgba(79, 22, 32, 0.12), rgba(79, 22, 32, 0.64));
+    radial-gradient(circle at top right, rgba(255, 199, 44, 0.3), transparent 28%),
+    linear-gradient(160deg, rgba(122, 0, 25, 0.32), rgba(20, 7, 11, 0.8));
 }
 
 .left-content {
   position: relative;
   z-index: 1;
-  max-width: 440px;
-  color: #fff;
+  max-width: 470px;
+  color: var(--um-text-light);
 }
 
 .left-content img {
-  height: 70px;
-  margin-bottom: 1.5rem;
+  height: 82px;
+  margin-bottom: 1.4rem;
+  filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.18));
 }
 
 .left-content h2 {
-  margin: 0 0 0.75rem;
-  font-family: "Fraunces", serif;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 1.02;
+  margin: 0 0 1rem;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 0.98;
+  font-weight: 800;
+  letter-spacing: -0.05em;
 }
 
 .left-content p {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.75;
+  color: rgba(255, 253, 247, 0.78);
 }
 
 .login-right {
   padding: 3rem;
-  background: linear-gradient(180deg, var(--surface-0), var(--surface-50));
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background:
+    radial-gradient(circle at top left, rgba(255, 199, 44, 0.12), transparent 22%),
+    linear-gradient(180deg, rgba(255, 253, 247, 0.98), rgba(255, 248, 231, 0.96));
 }
 
 .login-header {
@@ -96,65 +103,36 @@
 
 .login-header h2 {
   margin: 0;
-  font-family: "Fraunces", serif;
-  font-size: 2.4rem;
-  color: var(--brand-900);
+  font-size: 2.45rem;
+  color: var(--um-maroon);
+  font-weight: 800;
+  letter-spacing: -0.04em;
 }
 
 .login-header p {
   margin: 0.55rem 0 0;
-  color: var(--ink-600);
-}
-
-.btn-google {
-  width: 100%;
-  border-radius: 16px;
-  border: 1px solid rgba(79, 22, 32, 0.1);
-  background: #fff;
-  color: var(--ink-900);
-  padding: 0.95rem 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.7rem;
-  box-shadow: 0 10px 22px rgba(79, 22, 32, 0.06);
-}
-
-.divider {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 1.5rem 0;
-  color: var(--ink-600);
-  font-weight: 700;
-  font-size: 0.82rem;
-}
-
-.divider::before,
-.divider::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: rgba(79, 22, 32, 0.14);
+  color: var(--um-muted);
 }
 
 .form-label {
-  color: var(--ink-900);
+  color: var(--um-text-dark);
   font-weight: 700;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.48rem;
 }
 
 .form-control {
-  min-height: 52px;
+  min-height: 54px;
   border-radius: 16px !important;
-  border: 1px solid rgba(79, 22, 32, 0.12) !important;
-  background: #fff !important;
-  padding: 0.9rem 1rem !important;
+  border: 1px solid rgba(122, 0, 25, 0.12) !important;
+  background: rgba(255, 253, 247, 0.96) !important;
+  padding: 0.95rem 1rem !important;
+  color: var(--um-text-dark) !important;
 }
 
 .form-control:focus {
-  border-color: rgba(168, 50, 50, 0.4) !important;
-  box-shadow: 0 0 0 4px rgba(168, 50, 50, 0.08) !important;
+  border-color: rgba(122, 0, 25, 0.26) !important;
+  box-shadow: 0 0 0 4px rgba(244, 176, 0, 0.16) !important;
+  background: #fffefb !important;
 }
 
 .password-wrapper {
@@ -165,7 +143,7 @@
   position: absolute;
   right: 1rem;
   top: 3rem;
-  color: var(--ink-600);
+  color: var(--um-muted);
   cursor: pointer;
 }
 
@@ -175,30 +153,64 @@
 
 .btn-primary {
   width: 100%;
+  min-height: 56px;
   margin-top: 0.9rem;
-  min-height: 54px;
-  border: none !important;
   border-radius: 16px !important;
-  background: linear-gradient(135deg, var(--brand-700), var(--brand-600)) !important;
+  border: 1px solid rgba(255, 199, 44, 0.16) !important;
+  background: linear-gradient(135deg, var(--um-maroon), var(--um-deep-maroon)) !important;
+  color: var(--um-text-light) !important;
   font-weight: 800 !important;
-  box-shadow: 0 14px 30px rgba(168, 50, 50, 0.22);
+  box-shadow: 0 18px 38px rgba(75, 0, 16, 0.2);
 }
 
-.btn-primary:hover {
-  background: linear-gradient(135deg, var(--brand-800), var(--brand-700)) !important;
+.btn-primary:hover,
+.btn-primary:focus {
+  background: linear-gradient(135deg, #92001f, var(--um-maroon)) !important;
+  box-shadow: 0 20px 42px rgba(244, 176, 0, 0.18);
+}
+
+.alert {
+  border: 0 !important;
+  border-radius: 16px !important;
+  padding: 0.95rem 1rem !important;
+  font-weight: 600;
+}
+
+.alert-danger {
+  background: rgba(220, 38, 38, 0.1) !important;
+  color: #b91c1c !important;
+}
+
+.alert-success {
+  background: rgba(34, 197, 94, 0.1) !important;
+  color: #15803d !important;
 }
 
 .back-btn {
   position: fixed;
-  top: 1.25rem;
-  left: 1.25rem;
-  width: 52px;
-  height: 52px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  top: 1.15rem;
+  left: 1.15rem;
+  width: 54px;
+  height: 54px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 199, 44, 0.15);
+  background: rgba(255, 253, 247, 0.08);
+  color: var(--um-text-light);
   backdrop-filter: blur(12px);
+}
+
+.back-btn:hover {
+  background: rgba(255, 253, 247, 0.14);
+}
+
+.text-muted a,
+.login-right a {
+  color: var(--um-maroon);
+  font-weight: 700;
+}
+
+select.form-control {
+  appearance: auto;
 }
 
 @media (max-width: 991.98px) {
@@ -207,7 +219,7 @@
   }
 
   .login-left {
-    min-height: 280px;
+    min-height: 290px;
     align-items: center;
   }
 }
@@ -219,10 +231,14 @@
 
   .login-left,
   .login-right {
-    padding: 1.6rem;
+    padding: 1.5rem;
   }
 
   .left-content h2 {
+    font-size: 2rem;
+  }
+
+  .login-header h2 {
     font-size: 2rem;
   }
 }

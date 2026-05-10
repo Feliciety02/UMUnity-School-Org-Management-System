@@ -55,8 +55,21 @@
                                     <div class="col-md-6">
                                         <div class="card h-100">
                                             <div class="card-body">
-                                                <h6><?= htmlspecialchars((string)$organization['name']) ?></h6>
-                                                <p class="small text-muted mb-0"><?= htmlspecialchars((string)$organization['description']) ?></p>
+                                                <div class="d-flex align-items-start gap-3">
+                                                    <img
+                                                        src="<?= !empty($organization['logo']) ? asset((string)$organization['logo']) : asset('assets/images/orgs/default-org.png') ?>"
+                                                        alt="<?= htmlspecialchars((string)$organization['name']) ?>"
+                                                        class="rounded"
+                                                        style="width: 56px; height: 56px; object-fit: cover;"
+                                                    >
+                                                    <div class="flex-grow-1">
+                                                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                                            <h6 class="mb-0"><?= htmlspecialchars((string)$organization['name']) ?></h6>
+                                                            <span class="badge bg-primary">Joined</span>
+                                                        </div>
+                                                        <p class="small text-muted mb-0"><?= htmlspecialchars((string)$organization['description']) ?></p>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -81,9 +94,15 @@
                                     <div class="col-12">
                                         <div class="card h-100">
                                             <div class="card-body">
-                                                <h6><?= htmlspecialchars((string)$event['title']) ?></h6>
-                                                <p class="small text-muted mb-1"><?= htmlspecialchars((string)$event['description']) ?></p>
-                                                <small class="text-muted"><?= htmlspecialchars(format_date((string)$event['date_time'], 'M d, Y h:i A')) ?> at <?= htmlspecialchars((string)$event['venue']) ?></small>
+                                                <div class="d-flex justify-content-between align-items-start gap-3">
+                                                    <div>
+                                                        <span class="badge bg-warning mb-2"><?= htmlspecialchars(format_date((string)$event['date_time'], 'M d')) ?></span>
+                                                        <h6><?= htmlspecialchars((string)$event['title']) ?></h6>
+                                                        <p class="small text-muted mb-2"><?= htmlspecialchars((string)$event['description']) ?></p>
+                                                        <small class="text-muted"><?= htmlspecialchars(format_date((string)$event['date_time'], 'Y, h:i A')) ?> at <?= htmlspecialchars((string)$event['venue']) ?></small>
+                                                    </div>
+                                                    <span class="badge bg-secondary align-self-start"><?= htmlspecialchars(ucfirst((string)($event['status'] ?? 'upcoming'))) ?></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -108,7 +127,16 @@
                             <div class="col-md-4">
                                 <div class="card h-100">
                                     <div class="card-body">
-                                        <h6><?= htmlspecialchars((string)$organization['name']) ?></h6>
+                                        <img
+                                            src="<?= !empty($organization['logo']) ? asset((string)$organization['logo']) : asset('assets/images/orgs/default-org.png') ?>"
+                                            alt="<?= htmlspecialchars((string)$organization['name']) ?>"
+                                            class="rounded mb-3"
+                                            style="width: 100%; height: 140px; object-fit: cover;"
+                                        >
+                                        <div class="d-flex justify-content-between align-items-start gap-2 mb-2">
+                                            <h6 class="mb-0"><?= htmlspecialchars((string)$organization['name']) ?></h6>
+                                            <span class="badge bg-warning">Explore</span>
+                                        </div>
                                         <p class="small text-muted mb-0"><?= htmlspecialchars((string)$organization['description']) ?></p>
                                     </div>
                                 </div>

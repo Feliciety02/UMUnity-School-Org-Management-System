@@ -63,59 +63,110 @@ $total_events = get_total_org_events($leader_id, $conn);
         </div>
         <!-- Main Content -->
         <div class="main-content">
-            <div class="container mt-4">
-                <div class="table-responsive">
-                    <div class="table-wrapper">
-                        <div class="table-title d-flex justify-content-between align-items-center">
-                            <div>
-                                <h1 style="color:  #a83232 !important;"><b> Leader Dashboard</b></h1>
-                                <p>Oversee and coordinate organizations effectively.</p>
+            <div class="container">
+                <div class="dashboard-stack">
+                    <section class="page-hero">
+                        <span class="page-eyebrow"><i class="fas fa-user-tie"></i> Leader Workspace</span>
+                        <h1 class="page-hero-title">Leader Dashboard</h1>
+                        <p class="page-hero-copy">Keep your organization moving with a clearer overview of members, events, and the actions that matter next.</p>
+                        <div class="page-hero-meta">
+                            <span class="page-hero-chip"><i class="fas fa-building"></i> <?= htmlspecialchars($org_name); ?></span>
+                            <span class="page-hero-chip"><i class="fas fa-users"></i> <?= $total_members ?> members</span>
+                            <span class="page-hero-chip"><i class="fas fa-calendar-day"></i> <?= $total_events ?> upcoming events</span>
+                        </div>
+                    </section>
+
+                    <div class="metrics-grid">
+                        <div class="metric-card wide card">
+                            <div class="card-body">
+                                <div class="metric-card-top">
+                                    <div>
+                                        <p class="metric-label">Member Base</p>
+                                        <h3 class="metric-value mb-0"><?= $total_members ?></h3>
+                                    </div>
+                                    <div class="stats-card-icon bg-primary">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                </div>
+                                <p class="metric-note">Active members currently connected to your organization.</p>
                             </div>
                         </div>
 
-                        <div class="container-fluid px-4">
-                            <h3 class="mt-4">Welcome, <?php echo htmlspecialchars($leader['full_name']); ?>!</h3>
-                            <p class="text-muted">You are managing <strong><?php echo htmlspecialchars($org_name); ?></strong>.</p>
-
-                            <!-- Leader-Specific Stats -->
-                            <div class="row g-4">
-                                <div class="col-md-6">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-body">
-                                            <h6 class="text-muted">Total Members</h6>
-                                            <h3 id="total-members"><?php echo $total_members; ?></h3>
-                                            <p class="small text-muted">Active members in your organization</p>
-                                        </div>
+                        <div class="metric-card wide card">
+                            <div class="card-body">
+                                <div class="metric-card-top">
+                                    <div>
+                                        <p class="metric-label">Event Pipeline</p>
+                                        <h3 class="metric-value mb-0"><?= $total_events ?></h3>
+                                    </div>
+                                    <div class="stats-card-icon bg-warning">
+                                        <i class="fas fa-calendar-check"></i>
                                     </div>
                                 </div>
-
-                                <div class="col-md-6">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-body">
-                                            <h6 class="text-muted">Upcoming Events</h6>
-                                            <h3 id="total-events"><?php echo $total_events; ?></h3>
-                                            <p class="small text-muted">Events scheduled for your organization</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                <p class="metric-note">Scheduled events currently attached to your organization.</p>
                             </div>
+                        </div>
+                    </div>
 
-                            <!-- Leader Dashboard Options -->
-                            <div class="row g-4 mt-4">
+                    <div class="feature-tile-grid">
+                        <div class="feature-tile card">
+                            <div class="card-body">
+                                <div class="meta-row">
+                                    <span class="badge bg-primary">Members</span>
+                                </div>
+                                <h4 class="mb-0">Manage Members</h4>
+                                <p class="text-muted mb-0">Review membership status, coordinate leaders, and keep your roster organized.</p>
+                                <a href="manage_members.php" class="btn btn-primary">Open Members</a>
+                            </div>
+                        </div>
+
+                        <div class="feature-tile card">
+                            <div class="card-body">
+                                <div class="meta-row">
+                                    <span class="badge bg-warning">Events</span>
+                                </div>
+                                <h4 class="mb-0">Manage Events</h4>
+                                <p class="text-muted mb-0">Create, review, and update organization events from one place.</p>
+                                <a href="create_event.php" class="btn btn-primary">Open Events</a>
+                            </div>
+                        </div>
+
+                        <div class="feature-tile card">
+                            <div class="card-body">
+                                <div class="meta-row">
+                                    <span class="badge bg-secondary">Organization</span>
+                                </div>
+                                <h4 class="mb-0">Profile and Resources</h4>
+                                <p class="text-muted mb-0">Keep the logo, description, and resource links polished and up to date.</p>
+                                <a href="my_organization.php" class="btn btn-outline-primary">Open Organization</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="surface-card">
+                        <div class="surface-card-header">
+                            <div>
+                                <h5 class="mb-0">Leadership Snapshot</h5>
+                                <p class="surface-card-copy mb-0">A concise overview of the organization you are currently assigned to manage.</p>
+                            </div>
+                        </div>
+                        <div class="surface-card-body">
+                            <div class="row g-4">
                                 <div class="col-lg-6">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-header">Manage Members</div>
+                                    <div class="card h-100">
                                         <div class="card-body">
-                                            <a href="manage_members.php" class="btn btn-primary">View Members</a>
+                                            <p class="metric-label">Leader</p>
+                                            <h4 class="mb-2"><?= htmlspecialchars($leader['full_name']); ?></h4>
+                                            <p class="text-muted mb-0">Signed in as the current organization leader.</p>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="col-lg-6">
-                                    <div class="card border-0 shadow-sm">
-                                    <div class="card-header">Manage Events</div>
+                                    <div class="card h-100">
                                         <div class="card-body">
-                                            <a href="create_event.php" class="btn btn-primary">View Events</a>
+                                            <p class="metric-label">Assigned Organization</p>
+                                            <h4 class="mb-2"><?= htmlspecialchars($org_name); ?></h4>
+                                            <p class="text-muted mb-0">Use the organization workspace to update branding, resources, and profile details.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -130,30 +181,6 @@ $total_events = get_total_org_events($leader_id, $conn);
         <!-- Footer -->
     </div>
     <?php include "../../includes/footer.php"; ?>
-
-
-    <!-- JavaScript to Update Stats Using AJAX -->
-    <script>
-        $(document).ready(function() {
-            function updateStats() {
-                $.ajax({
-                    url: "fetch_leader_stats.php",
-                    method: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        $("#total-members").text(data.total_members);
-                        $("#total-events").text(data.total_events);
-                    },
-                    error: function() {
-                        console.error("Error fetching stats");
-                    }
-                });
-            }
-
-            // Update stats every 10 seconds
-            setInterval(updateStats, 10000);
-        });
-    </script>
 
 </body>
 

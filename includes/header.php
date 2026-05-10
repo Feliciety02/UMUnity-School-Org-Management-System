@@ -46,10 +46,13 @@ $recent_notifications = get_recent_notifications($user_id, 5);
 <div class="main-header">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
+            <button class="btn sidebar-toggle" type="button" aria-label="Toggle navigation">
+                <span class="material-icons-outlined">menu</span>
+            </button>
 
             <!-- Universal Search Bar -->
             <div class="nav-search">
-                <input type="text" class="search-input" placeholder="Search...">
+                <input type="text" class="search-input" placeholder="Search users, organizations, events..." />
             </div>
 
             <!-- Right Side Elements -->

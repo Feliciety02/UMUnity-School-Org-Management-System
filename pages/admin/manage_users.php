@@ -59,6 +59,7 @@ $result = $conn->query($sql);
     <title>User Management</title>
 
     <link rel="stylesheet" href="/assets/css/includes.css">
+    <link rel="stylesheet" href="/assets/css/dashboard.css">
     <link rel="stylesheet" href="/assets/css/table.css">
     <!-- FontAwesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -78,33 +79,45 @@ $result = $conn->query($sql);
 
         <!-- Main Content -->
         <div class="main-content">
-            <div class="container mt-4">
+            <div class="container">
                 <div class="table-responsive">
+                    <div class="dashboard-stack">
+                        <section class="page-hero">
+                            <span class="page-eyebrow"><i class="fas fa-users-cog"></i> User Administration</span>
+                            <h1 class="page-hero-title">User Management</h1>
+                            <p class="page-hero-copy">Review accounts, adjust roles, and keep access control consistent across the organization platform.</p>
+                            <div class="page-hero-meta">
+                                <span class="page-hero-chip"><i class="fas fa-users"></i> <?= $total_users ?> total users</span>
+                                <span class="page-hero-chip"><i class="fas fa-sliders"></i> Search, filter, and edit records live</span>
+                            </div>
+                        </section>
+
                     <div class="table-wrapper">
                         <div class="table-title d-flex justify-content-between align-items-center">
                             <div>
-                                <h1 style="color:  #a83232 !important;"><b> User Management</b></h1>
+                                <h1><b>User Management</b></h1>
                                 <p>Efficiently oversee user accounts, roles, and statuses.</p>
                             </div>
                             <div class="col-md-3">
                                 <div class="info-card shadow-sm border rounded-3 p-3">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <h6 class="text-muted mb-1">Total Users</h6>
-                                        <div class="icon-circle bg-success text-white">
-                                            <i class="fas fa-file-alt"></i>
+                                        <div class="stats-card-icon bg-success">
+                                            <i class="fas fa-users"></i>
                                         </div>
                                     </div>
                                     <h2 class="fw-bold mb-1" id="totalUsersCount"><?= $total_users ?></h2>
-                                    <span class="text-success small">
-                                        <i class="fas fa-arrow-up"></i> 12 new this month
+                                    <span class="text-muted small">
+                                        Live count from the current system database
                                     </span>
                                 </div>
                             </div>
 
                         </div>
-                        <div class=" wrapper-card pagination-container  justify-content-between">
-                            <div>
-                                <label for="rowsPerPageSelect">Show:</label>
+                        <div class="wrapper-card is-toolbar">
+                            <div class="control-bar">
+                            <div class="control-group">
+                                <label for="rowsPerPageSelect" class="control-label">Rows</label>
                                 <select id="rowsPerPageSelect" class="form-select w-auto">
                                     <option value="5">5 entries</option>
                                     <option value="10" selected>10 entries</option>
@@ -112,13 +125,16 @@ $result = $conn->query($sql);
                                     <option value="20">20 entries</option>
                                 </select>
                             </div>
-                            <div class="d-flex gap-3"><input type="text" id="searchInput" class="form-control w-auto" placeholder="Search users...">
+                            <div class="control-group">
+                                <div class="search-shell">
+                                    <input type="text" id="searchInput" class="form-control w-100" placeholder="Search users...">
+                                </div>
                                 <button class="btn  d-flex align-items-center px-3" data-bs-toggle="modal" data-bs-target="#addUserModal" id="addUserBtn">
                                     <span class="material-icons-outlined" style="font-size: 20px; line-height: 1;">add</span>
                                     <span class="ms-1">Add User</span>
                                 </button>
                             </div>
-
+                            </div>
                         </div>
                         <div class="wrapper-card mt-4">
                             <div class="table-container">

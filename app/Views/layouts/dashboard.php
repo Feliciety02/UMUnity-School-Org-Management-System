@@ -83,6 +83,10 @@ $notifications = get_recent_notifications((int)$currentUser['user_id'], 5, app()
     <div class="main-header">
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
+                <button class="btn sidebar-toggle" type="button" aria-label="Toggle navigation">
+                    <span class="material-icons-outlined">menu</span>
+                </button>
+
                 <div class="nav-search">
                     <input type="text" class="search-input" placeholder="Search modules, organizations, events..." disabled>
                 </div>
@@ -148,5 +152,30 @@ $notifications = get_recent_notifications((int)$currentUser['user_id'], 5, app()
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.querySelector(".sidebar-toggle");
+    if (!toggle) {
+        return;
+    }
+
+    toggle.addEventListener("click", function () {
+        document.body.classList.toggle("sidebar-open");
+    });
+
+    document.addEventListener("click", function (event) {
+        const isMobile = window.innerWidth <= 991;
+        if (!isMobile || !document.body.classList.contains("sidebar-open")) {
+            return;
+        }
+
+        const insideSidebar = event.target.closest(".app-sidebar");
+        const insideToggle = event.target.closest(".sidebar-toggle");
+        if (!insideSidebar && !insideToggle) {
+            document.body.classList.remove("sidebar-open");
+        }
+    });
+});
+</script>
 </body>
 </html>

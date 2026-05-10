@@ -361,7 +361,7 @@ $topUsers = $conn->query("SELECT u.full_name, COUNT(al.user_id) AS total
                 actionCounts[action] = (actionCounts[action] || 0) + 1;
             });
 
-            let colors = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6', '#6b7280', '#14b8a6', '#db2777', '#facc15', '#6366f1'];
+            let colors = ['#7A0019', '#F4B000', '#4B0010', '#FFC72C', '#A61B34', '#8F6B14', '#6E6257', '#A62828', '#5E0B1A', '#D89A00', '#8C2136'];
 
             if (Object.keys(actionCounts).length > 0) {
                 let actionLabels = Object.keys(actionCounts);

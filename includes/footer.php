@@ -19,3 +19,29 @@
         </div>
     </div>
 </footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const toggle = document.querySelector(".sidebar-toggle");
+    if (!toggle) {
+        return;
+    }
+
+    toggle.addEventListener("click", function () {
+        document.body.classList.toggle("sidebar-open");
+    });
+
+    document.addEventListener("click", function (event) {
+        const isMobile = window.innerWidth <= 991;
+        if (!isMobile || !document.body.classList.contains("sidebar-open")) {
+            return;
+        }
+
+        const insideSidebar = event.target.closest(".app-sidebar");
+        const insideToggle = event.target.closest(".sidebar-toggle");
+        if (!insideSidebar && !insideToggle) {
+            document.body.classList.remove("sidebar-open");
+        }
+    });
+});
+</script>

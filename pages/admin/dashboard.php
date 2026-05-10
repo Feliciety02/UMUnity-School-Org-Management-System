@@ -112,76 +112,134 @@ while ($row = $user_activity_result->fetch_assoc()) {
         <div class="main-content">
             <div class="container">
                 <div class="table-responsive">
-                    <div class="table-wrapper">
-                        <div class="table-title d-flex justify-content-between align-items-center">
-                            <div>
-                                <h1 style="color: #a83232 !important;"><b>Admin Dashboard</b></h1>
-                                <p>Oversee and coordinate organizations effectively.</p>
+                    <div class="dashboard-stack">
+                        <section class="page-hero">
+                            <span class="page-eyebrow"><i class="fas fa-shield-halved"></i> Administration</span>
+                            <h1 class="page-hero-title">Admin Dashboard</h1>
+                            <p class="page-hero-copy">Monitor platform growth, unblock organization approvals, and keep member operations clean from a single control center.</p>
+                            <div class="page-hero-meta">
+                                <span class="page-hero-chip"><i class="fas fa-building"></i> <?= $total_organizations ?> active organizations</span>
+                                <span class="page-hero-chip"><i class="fas fa-user-check"></i> <?= $active_users ?> active users</span>
+                                <span class="page-hero-chip"><i class="fas fa-clock"></i> <?= $pending_organizations ?> approvals waiting</span>
+                            </div>
+                        </section>
+
+                        <div class="metrics-grid">
+                            <div class="metric-card card">
+                                <div class="card-body">
+                                    <div class="metric-card-top">
+                                        <div>
+                                            <p class="metric-label">Organizations</p>
+                                            <h3 class="metric-value mb-0"><?= $total_organizations ?></h3>
+                                        </div>
+                                        <div class="stats-card-icon bg-primary">
+                                            <i class="fas fa-sitemap"></i>
+                                        </div>
+                                    </div>
+                                    <p class="metric-note">Currently active school organizations.</p>
+                                </div>
+                            </div>
+
+                            <div class="metric-card card">
+                                <div class="card-body">
+                                    <div class="metric-card-top">
+                                        <div>
+                                            <p class="metric-label">Pending</p>
+                                            <h3 class="metric-value mb-0"><?= $pending_organizations ?></h3>
+                                        </div>
+                                        <div class="stats-card-icon bg-warning">
+                                            <i class="fas fa-hourglass-half"></i>
+                                        </div>
+                                    </div>
+                                    <p class="metric-note">Organizations waiting for review and activation.</p>
+                                </div>
+                            </div>
+
+                            <div class="metric-card card">
+                                <div class="card-body">
+                                    <div class="metric-card-top">
+                                        <div>
+                                            <p class="metric-label">Users</p>
+                                            <h3 class="metric-value mb-0"><?= $total_users ?></h3>
+                                        </div>
+                                        <div class="stats-card-icon bg-success">
+                                            <i class="fas fa-users"></i>
+                                        </div>
+                                    </div>
+                                    <p class="metric-note">All registered accounts across the system.</p>
+                                </div>
+                            </div>
+
+                            <div class="metric-card card">
+                                <div class="card-body">
+                                    <div class="metric-card-top">
+                                        <div>
+                                            <p class="metric-label">Active Accounts</p>
+                                            <h3 class="metric-value mb-0"><?= $active_users ?></h3>
+                                        </div>
+                                        <div class="stats-card-icon bg-info">
+                                            <i class="fas fa-user-check"></i>
+                                        </div>
+                                    </div>
+                                    <p class="metric-note">Accounts currently allowed to use the platform.</p>
+                                </div>
                             </div>
                         </div>
 
                         <div class="container-fluid px-0">
                             <div class="row g-4 mb-4">
                                 <div class="col-md-6 col-lg-3">
-                                    <div class="card h-100 border-0 shadow-sm">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <div>
-                                                    <h6 class="text-muted mb-1">Total Organizations</h6>
-                                                    <h3 class="mb-0"><?= $total_organizations ?></h3>
-                                                </div>
-                                                <div class="stats-card-icon bg-primary bg-opacity-10 text-primary">
-                                                    <i class="fas fa-sitemap"></i>
-                                                </div>
+                                    <div class="surface-card h-100">
+                                        <div class="surface-card-header">
+                                            <div>
+                                                <h5 class="mb-0">Quick Access</h5>
+                                                <p class="surface-card-copy mb-0">Open user administration.</p>
                                             </div>
+                                        </div>
+                                        <div class="surface-card-body">
+                                            <a href="/pages/admin/manage_users.php" class="btn btn-primary w-100">Manage Users</a>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-lg-3">
-                                    <div class="card h-100 border-0 shadow-sm border-warning">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <div>
-                                                    <h6 class="text-muted mb-1">Pending Approvals</h6>
-                                                    <h3 class="mb-0"><?= $pending_organizations ?></h3>
-                                                </div>
-                                                <div class="stats-card-icon bg-warning bg-opacity-10 text-warning">
-                                                    <i class="fas fa-clock"></i>
-                                                </div>
+                                    <div class="surface-card h-100">
+                                        <div class="surface-card-header">
+                                            <div>
+                                                <h5 class="mb-0">Organizations</h5>
+                                                <p class="surface-card-copy mb-0">Review organization records.</p>
                                             </div>
+                                        </div>
+                                        <div class="surface-card-body">
+                                            <a href="/pages/admin/manage_organizations.php" class="btn btn-outline-primary w-100">Open Organizations</a>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-lg-3">
-                                    <div class="card h-100 border-0 shadow-sm">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <div>
-                                                    <h6 class="text-muted mb-1">Total Users</h6>
-                                                    <h3 class="mb-0"><?= $total_users ?></h3>
-                                                </div>
-                                                <div class="stats-card-icon bg-success bg-opacity-10 text-success">
-                                                    <i class="fas fa-users"></i>
-                                                </div>
+                                    <div class="surface-card h-100">
+                                        <div class="surface-card-header">
+                                            <div>
+                                                <h5 class="mb-0">Events</h5>
+                                                <p class="surface-card-copy mb-0">Track event status and approvals.</p>
                                             </div>
+                                        </div>
+                                        <div class="surface-card-body">
+                                            <a href="/pages/admin/manage_events.php" class="btn btn-outline-primary w-100">Open Events</a>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-6 col-lg-3">
-                                    <div class="card h-100 border-0 shadow-sm">
-                                        <div class="card-body">
-                                            <div class="d-flex justify-content-between align-items-start">
-                                                <div>
-                                                    <h6 class="text-muted mb-1">Active Users</h6>
-                                                    <h3 class="mb-0"><?= $active_users ?></h3>
-                                                </div>
-                                                <div class="stats-card-icon bg-info bg-opacity-10 text-info">
-                                                    <i class="fas fa-user-check"></i>
-                                                </div>
+                                    <div class="surface-card h-100">
+                                        <div class="surface-card-header">
+                                            <div>
+                                                <h5 class="mb-0">Reports</h5>
+                                                <p class="surface-card-copy mb-0">Inspect logs and summaries.</p>
                                             </div>
+                                        </div>
+                                        <div class="surface-card-body">
+                                            <a href="/pages/admin/manage_reports.php" class="btn btn-outline-primary w-100">Open Reports</a>
                                         </div>
                                     </div>
                                 </div>
@@ -189,23 +247,33 @@ while ($row = $user_activity_result->fetch_assoc()) {
 
                             <div class="row g-4 mb-4">
                                 <div class="col-lg-6">
-                                    <div class="card border-0 shadow-sm h-100">
-                                        <div class="card-header bg-transparent border-0">
-                                            <h5 class="card-title">Organization Categories</h5>
+                                    <div class="surface-card chart-card h-100">
+                                        <div class="surface-card-header">
+                                            <div>
+                                                <h5 class="mb-0">Organization Categories</h5>
+                                                <p class="surface-card-copy mb-0">See how clubs are distributed across categories.</p>
+                                            </div>
                                         </div>
-                                        <div class="card-body">
-                                            <canvas id="org-categories-chart" height="100"></canvas>
+                                        <div class="surface-card-body">
+                                            <div class="chart-frame">
+                                                <canvas id="org-categories-chart" height="100"></canvas>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <div class="card border-0 shadow-sm h-100">
-                                        <div class="card-header bg-transparent border-0">
-                                            <h5 class="card-title">User Activity</h5>
+                                    <div class="surface-card chart-card h-100">
+                                        <div class="surface-card-header">
+                                            <div>
+                                                <h5 class="mb-0">User Activity</h5>
+                                                <p class="surface-card-copy mb-0">Monthly growth trend for user registrations.</p>
+                                            </div>
                                         </div>
-                                        <div class="card-body">
-                                            <canvas id="user-activity-chart" height="300"></canvas>
+                                        <div class="surface-card-body">
+                                            <div class="chart-frame">
+                                                <canvas id="user-activity-chart" height="300"></canvas>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -213,15 +281,18 @@ while ($row = $user_activity_result->fetch_assoc()) {
 
                             <div class="row g-4">
                                 <div class="col-lg-8">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
-                                            <h5 class="card-title">Pending Organizations</h5>
+                                    <div class="surface-card">
+                                        <div class="surface-card-header">
+                                            <div>
+                                                <h5 class="mb-0">Pending Organizations</h5>
+                                                <p class="surface-card-copy mb-0">The next organizations waiting for admin approval.</p>
+                                            </div>
                                             <a href="/pages/admin/manage_organizations.php" class="btn btn-sm btn-primary">View All</a>
                                         </div>
-                                        <div class="card-body p-0">
+                                        <div class="surface-card-body p-0">
                                             <div class="table-responsive">
                                                 <table class="table table-hover align-middle mb-0">
-                                                    <thead class="table-light">
+                                                    <thead>
                                                         <tr>
                                                             <th>Name</th>
                                                             <th>Category</th>
@@ -252,25 +323,26 @@ while ($row = $user_activity_result->fetch_assoc()) {
                                 </div>
 
                                 <div class="col-lg-4">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-header bg-transparent border-0">
-                                            <h5 class="card-title">Recent Activity</h5>
+                                    <div class="surface-card">
+                                        <div class="surface-card-header">
+                                            <div>
+                                                <h5 class="mb-0">Recent Activity</h5>
+                                                <p class="surface-card-copy mb-0">Latest admin-facing actions inside the platform.</p>
+                                            </div>
                                         </div>
-                                        <div class="card-body p-0">
-                                            <div class="list-group list-group-flush">
+                                        <div class="surface-card-body">
+                                            <div class="activity-feed">
                                                 <?php if (empty($recent_activities)): ?>
-                                                    <div class="text-center py-4 text-muted">
+                                                    <div class="dashboard-empty">
                                                         <i class="fas fa-history fa-2x mb-3"></i>
                                                         <p>No recent activities</p>
                                                     </div>
                                                 <?php else: ?>
                                                     <?php foreach ($recent_activities as $activity): ?>
-                                                        <div class="list-group-item border-0 py-3">
-                                                            <div class="flex-grow-1">
-                                                                <h6 class="mb-1"><?= htmlspecialchars($activity['action']) ?></h6>
-                                                                <p class="text-muted small mb-1"><?= strip_tags($activity['details']) ?></p>
-                                                                <small class="text-muted"><?= htmlspecialchars(format_date($activity['created_at'], 'M d, h:i A')) ?></small>
-                                                            </div>
+                                                        <div class="activity-item">
+                                                            <h6 class="mb-1"><?= htmlspecialchars($activity['action']) ?></h6>
+                                                            <p class="text-muted small mb-1"><?= strip_tags($activity['details']) ?></p>
+                                                            <small class="text-muted"><?= htmlspecialchars(format_date($activity['created_at'], 'M d, h:i A')) ?></small>
                                                         </div>
                                                     <?php endforeach; ?>
                                                 <?php endif; ?>
@@ -303,7 +375,7 @@ while ($row = $user_activity_result->fetch_assoc()) {
                 labels: orgCategories,
                 datasets: [{
                     data: orgCategoryCounts,
-                    backgroundColor: ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#3b82f6', '#8b5cf6', '#6b7280', '#14b8a6', '#db2777', '#facc15']
+                    backgroundColor: ['#7A0019', '#F4B000', '#4B0010', '#FFC72C', '#A61B34', '#8F6B14', '#6E6257', '#A62828', '#5E0B1A', '#D89A00']
                 }]
             },
             options: {
@@ -329,8 +401,8 @@ while ($row = $user_activity_result->fetch_assoc()) {
                 datasets: [{
                     label: 'New Users',
                     data: activeUsers,
-                    borderColor: '#4f46e5',
-                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                    borderColor: '#7A0019',
+                    backgroundColor: 'rgba(122, 0, 25, 0.12)',
                     tension: 0.3,
                     fill: true
                 }]
